@@ -1,4 +1,4 @@
-# 🌳 梧桐知网 (SmartObsidian)
+# 🌳 梧桐知网 (Wutong Knet)
 
 **基于 PyQt6 打造的极客知识库与 RAG 智能学习工作站**
 
