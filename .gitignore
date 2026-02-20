@@ -1,0 +1,22 @@
+# Python 编译缓存
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境 (如果你用了虚拟环境)
+venv/
+.venv/
+env/
+
+# 你的个人配置与 API Key (千万不能上传！)
+settings.json
+
+# 你的本地笔记知识库 (如果你建在了项目里)
+/我的笔记/
+/grown/
+*.md
+
+# PyInstaller 打包生成的文件 (为以后打包做准备)
+build/
+dist/
+*.spec

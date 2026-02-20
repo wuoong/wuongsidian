@@ -1,0 +1,20 @@
+
+        QMainWindow, QWidget { background-color: #ffffff; color: #333333; font-family: "Microsoft YaHei", "Segoe UI", sans-serif; }
+        #activityBar { background-color: #f7f7f7; border-right: 1px solid #ededed; }
+        #activityBar QPushButton { border: none; background: transparent; font-size: 18px; padding: 10px 0; margin: 5px 0; color: #555555; }
+        #activityBar QPushButton:hover { background-color: #ebebeb; border-radius: 6px; }
+        #sidebar { background-color: #fafafa; border-right: 1px solid #ededed; }
+        #sidebarTopBar QPushButton { border: none; background: transparent; padding: 4px; color: #666; font-size: 14px; margin-right: 2px; }
+        #sidebarTopBar QPushButton:hover { background-color: #eaeaea; border-radius: 4px; }
+        QTreeView { border: none; background-color: transparent; outline: none; }
+        QTreeView::item { padding: 6px; border-radius: 4px; }
+        QTreeView::item:hover { background-color: #eaeaea; }
+        QTreeView::item:selected { background-color: #e3e3e3; color: #000; }
+        QTabWidget::pane { border: none; border-top: 1px solid #ededed; }
+        QTabBar::tab { background-color: transparent; border: none; padding: 8px 16px; margin-right: 2px; color: #666; }
+        QTabBar::tab:selected { background-color: #ffffff; color: #333; border-bottom: 2px solid #8b5cf6; }
+        QTabBar::tab:hover { background-color: #f4f4f4; }
+        QMenu { background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 4px; }
+        QMenu::item { padding: 6px 20px; border-radius: 4px; }
+        QMenu::item:selected { background-color: #f0f0f0; }
+        

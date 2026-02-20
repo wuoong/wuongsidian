@@ -1,0 +1,3 @@
+PyQt6
+markdown
+PyQt6-WebEngine
