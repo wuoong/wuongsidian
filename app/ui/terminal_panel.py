@@ -1,8 +1,9 @@
 import os
-import sys  # 引入 sys 模块获取绝对路径
+import sys
 import tempfile
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QTextBrowser, QHBoxLayout, QPushButton, QLabel
-from PyQt6.QtCore import QProcess
+from PyQt6.QtCore import QProcess, QProcessEnvironment
+
 
 class TerminalPanel(QWidget):
     def __init__(self):
@@ -29,27 +30,46 @@ class TerminalPanel(QWidget):
         layout.addWidget(self.output_display)
 
         self.process = QProcess(self)
+
+        # 【修复乱码 1】：强制给子进程注入环境变量，要求 Python 必须用 UTF-8 输出
+        env = QProcessEnvironment.systemEnvironment()
+        env.insert("PYTHONIOENCODING", "utf-8")
+        self.process.setProcessEnvironment(env)
+
         self.process.readyReadStandardOutput.connect(self.handle_stdout)
         self.process.readyReadStandardError.connect(self.handle_stderr)
 
     def run_code(self, code_str):
         self.output_display.append("<br><b style='color:#8b5cf6;'>[执行代码] ▶</b>")
-
         self.temp_file = os.path.join(tempfile.gettempdir(), "smart_obsidian_run.py")
         with open(self.temp_file, "w", encoding="utf-8") as f:
             f.write(code_str)
 
-        # 【核心修复 3】：绝对不要只写 "python"，使用 sys.executable 精准定位当前正在运行代码的虚拟环境 Python 解释器
-        self.process.start(sys.executable, [self.temp_file])
+        if getattr(sys, 'frozen', False):
+            python_cmd = "python"
+        else:
+            python_cmd = sys.executable
 
+        self.process.start(python_cmd, [self.temp_file])
+
+    # 【修复乱码 2】：加入双重解码保险机制
     def handle_stdout(self):
-        data = self.process.readAllStandardOutput().data().decode('utf-8', errors='ignore')
-        # 【核心修复 4】：将控制台的换行符替换为 HTML 的 <br>，防止输出全挤在一行
+        raw_data = self.process.readAllStandardOutput().data()
+        try:
+            data = raw_data.decode('utf-8')
+        except UnicodeDecodeError:
+            data = raw_data.decode('gbk', errors='ignore')
+
         data = data.replace('\n', '<br>')
         self.output_display.append(f"<span style='color:#d4d4d4;'>{data}</span>")
 
     def handle_stderr(self):
-        data = self.process.readAllStandardError().data().decode('utf-8', errors='ignore')
+        raw_data = self.process.readAllStandardError().data()
+        try:
+            data = raw_data.decode('utf-8')
+        except UnicodeDecodeError:
+            data = raw_data.decode('gbk', errors='ignore')
+
         data = data.replace('\n', '<br>')
         self.output_display.append(f"<span style='color:#f43f5e;'>{data}</span>")
 
